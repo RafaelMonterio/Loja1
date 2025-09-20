@@ -1,19 +1,33 @@
 <?php
-    require 'conexao.php';
-    $nome = $_POST['produto'];
-    $preco = $_POST['preco'];
-    $estoque = $_POST['quantidade'];
+require 'conexao.php';
 
-    $sql = "INSERT INTO produtos (nome, preco, quantidade) VALUES (:nome, :preco, :quantidade)";
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: index.php');
+    exit;
+}
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':nome', $nome);
-    $stmt->bindParam(':preco', $preco);
-    $stmt->bindParam(':quantidade', $estoque); 
+$nome = trim($_POST['produto'] ?? '');
+$preco_raw = trim($_POST['preco'] ?? '');
+$estoque = filter_var($_POST['estoque'] ?? 0, FILTER_VALIDATE_INT);
 
-    if ($stmt->execute()) {
-        echo "Produto inserido com sucesso!";
-    } else {
-        echo "Erro ao inserir produto.";
-    }
-?>
+if ($nome === '' || $preco_raw === '' || $estoque === false) {
+    die('Dados inválidos. Volte e preencha todos os campos corretamente.');
+}
+
+
+$preco = str_replace(',', '.', $preco_raw);
+$preco = (float) $preco;
+
+$sql = "INSERT INTO produtos (nome, preco, quantidade) VALUES (:nome, :preco, :quantidade)";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':nome', $nome);
+$stmt->bindParam(':preco', $preco);
+$stmt->bindParam(':quantidade', $estoque, PDO::PARAM_INT);
+
+try {
+    $stmt->execute();
+    header('Location: listar.php?created=1');
+    exit;
+} catch (PDOException $e) {
+    die("Erro ao inserir produto: " . $e->getMessage());
+}

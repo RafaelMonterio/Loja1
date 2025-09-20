@@ -1,15 +1,16 @@
 <?php
-    include 'cabecalho.php';
+include 'cabecalho.php';
 ?>
-<body>
-    <div class="container">        
-        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <a href="form_cadastrar.php" type="button" class="btn btn-danger">Cadastrar</a>
-            <a href="Listar.php" type="button" class="btn btn-warning">Listar</a>
-        </div>
-    </div>
+<div class="container">
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-</body>
-</html>
+      <h2>Encontre seus universos favoritos aqui!!</h2>
+      <img class="livraria" src="img/Livraria4.png" alt="">
+
+      <p style="margin-top:25px; font-size: 20px">Confira o melhor catálogo do mercado abaixo</p>
+      <p style="margin-top:18px;"><a class="buy-btn" href="loja.php">Ver Catálogo</a></p>
+
+
+
+</div>
+<?php include 'rodape.php'; ?>
